@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${titulo}">Insert title here</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">GloblalTek</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/listar}">Facturas</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h1 th:text="${titulo}" class="text-secondary border border-success border-top-0 border-left-0 border-right-0">
+		</h1>
+
+		<div th:object="${factura}" th:remove="tag">
+			<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+				<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+			</ul>
+		</div>
+		<form th:action="@{/form}" th:object="${factura}" method="post">
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Numero Factura</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{numeroFactura}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('numeroFactura')}" th:errors="*{numeroFactura}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Fecha</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" th:field="*{createAt}"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Tipo Pago</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{tipoPago}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('tipoPago')}" th:errors="*{tipoPago}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Documento Cliente</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{documentoCliente}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('documentoCliente')}" th:errors="*{documentoCliente}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Nombre Cliente</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{nombreCliente}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('nombreCliente')}" th:errors="*{nombreCliente}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Sub Total</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{subTotal}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('subTotal')}" th:errors="*{subTotal}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Descuento</label>
+				<div class="col-sm-6">
+					<input type="number" th:field="*{descuento}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('descuento')}" th:errors="*{descuento}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Iva</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{iva}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('iva')}" th:errors="*{iva}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Total Descuento</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{totalDescuento}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('totalDescuento')}" th:errors="*{totalDescuento}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Total Impuesto</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{totalImpuesto}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('totalImpuesto')}" th:errors="*{totalImpuesto}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Total</label>
+				<div class="col-sm-6">
+					<input type="text" th:field="*{total}" class="form-control"
+						th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('total')}" th:errors="*{total}"></small>
+				</div>
+			</div>
+			<table class="table table-bordered table-striped my-4">
+
+				<div>
+					<label class="col-sm-2 col-form-label text-secondary border border-success border-top-0 border-left-0 border-right-0">Total Descuento:</label>
+					<span th:text="${factura.calcularTotalDescuento()}"></span>
+				</div>
+
+				<div>
+					<label class="col-sm-2 col-form-label text-secondary border border-success border-top-0 border-left-0 border-right-0">Total Impuesto:</label>
+					<span th:text="${factura.calcularTotalImpuesto()}"></span>
+				</div>
+
+				<div>
+					<label class="col-sm-2 col-form-label text-secondary border border-success border-top-0 border-left-0 border-right-0">Total:</label>
+					<span th:text="${factura.calcularTotal()}"></span>
+				</div>
+
+				</tbody>
+				
+				<thead>
+      <tr>
+        <th>ID</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+   <tbody>
+      <tr th:each="producto : ${productos}">
+        <td th:text="${producto.id}"></td>
+        <td th:text="${producto.nombre}"></td>
+        <td>
+          <input type="number" th:name="cantidad_${producto.id}" />
+        </td>
+      </tr>
+    </tbody>
+			</table>
+			
+			
+
+			<div class="form-group row">
+				<div class="col-sm-6">
+					<input type="submit" value="Crear Factura" class="btn btn-primary" />
+				</div>
+			</div>
+			
+			
+			
+		</form>
+	</div>
+</body>
+
+</html>
